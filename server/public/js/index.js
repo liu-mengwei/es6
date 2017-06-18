@@ -61,69 +61,58 @@
 
 	'use strict';
 
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	var _templateObject = _taggedTemplateLiteral([' i am student ,name is ', ',age is ', ''], [' i am student ,name is ', ',age is ', '']);
-
-	function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 	/**
-	 * Created by liumw on 2017/6/14.
+	 * Created by liumw on 2017/6/18.
 	 */
 
-	function print() {
-	    var str = '';
-	    for (var i in arguments) {
-	        str += arguments[i];
+	// 这里是模块化，obj并不会污染全局变量
+	var obj = {
+	    name: 'meng',
+	    drink: function drink() {
+	        console.log('喝水');
+	    },
+	    eat: function eat() {
+	        var _this2 = this;
+
+	        // 函数定义时所处函数的调用环境
+	        var _this = this;
+
+	        var aa = function aa() {
+	            console.log(_this2);
+	            console.log(_this); //相同的
+	        };
+	        aa();
+	    },
+
+	    //----------------三种写法----------------
+
+	    sleep: function sleep() {
+	        var _this = this;
+	        setTimeout(function () {
+	            console.log(this.name);
+	        }, 1000);
+	    },
+
+	    // 这里this其实就是干的上面这个事
+	    sleep2: function sleep2() {
+	        var _this3 = this;
+
+	        setTimeout(function () {
+	            console.log(_this3.name);
+	        }, 1000);
+	    },
+
+	    // 这里this其实就是干的上面这个事
+	    sleep3: function sleep3() {
+	        setTimeout(function () {
+	            console.log('bind:' + this.name);
+	        }.bind(this), 1000);
 	    }
-	    str += '\n';
 
-	    var span = document.createElement('span');
-	    span.appendChild(document.createTextNode(str));
-	    document.getElementById("content").appendChild(span);
-	}
+	};
 
-	{
-	    var _a$b = { a: 1, b: 2 },
-	        a = _a$b.a,
-	        b = _a$b.b;
-
-	    print(a, b);
-	}
-
-	{
-	    var _a$b2 = { a: 1, b: 2 },
-	        va = _a$b2.a,
-	        vb = _a$b2.b;
-
-	    print(va, vb);
-	}
-
-	//解构赋值，左右形式相同
-	{
-	    var _a = { a: [{ title: 'title' }] },
-	        _a$a = _slicedToArray(_a.a, 1),
-	        vtitle = _a$a[0].title;
-
-	    print(vtitle);
-
-	    var reg1 = /user\d/g;
-	    print(reg1.exec('user1user2').index, reg1.exec('user1user2').index, reg1.exec('user1user2'), reg1.exec('user1').index);
-	}
-
-	{
-	    var change = function change(s1, v1, v2) {
-	        //print(s1);
-	        //print(v1);
-	        //print(v2);
-	        return v1 + s1 + v2;
-	    };
-
-	    var student = { name: 'mengmeng', age: '16' };
-
-	    //标签模板
-	    print(change(_templateObject, student.name, student.age));
-	}
+	obj.eat.apply({ name: 'liu' }); // liu
+	obj.sleep3();
 
 /***/ })
 /******/ ]);
