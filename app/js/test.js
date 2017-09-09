@@ -47,3 +47,30 @@ var obj = {
 
 obj.eat.apply({name: 'liu'}); // liu
 obj.sleep3();
+
+function outer() {
+    this.name = 'meng';
+
+    function inner() {
+        console.log('inner:' + this.name);
+    }
+
+    var a = function () {
+        var b = ()=> {
+            debugger;
+            console.log('b' + this.name);//undefined
+        };
+        b();
+    };
+
+    // 函数直接调用时，this为undefined (这个函数不是箭头函数时)
+    // 当为箭头函数， var _this = this 这段话加到最接近的function()下面，而不是箭头函数下面。
+
+
+    //inner();
+    a();
+
+    //inner.apply({name: 'liu'});
+}
+
+var a = new outer();

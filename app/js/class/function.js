@@ -22,7 +22,7 @@
         console.log(c, y);
     }
 
-    test();
+    test(3, 4);
     test2();
 }
 
@@ -35,8 +35,10 @@
         console.log('arguments[0]： ' + arguments[0]);
     }
 
-    test(3, 4, 5, 4, 5);
-    console.log('a', ...[1, 2, 3]);
+    var arr = [5, 4, 5];
+
+    //可以直接这样传变量进去
+    test(3, 4, ...arr);
 }
 
 // 箭头函数 v*3 函数返回值
